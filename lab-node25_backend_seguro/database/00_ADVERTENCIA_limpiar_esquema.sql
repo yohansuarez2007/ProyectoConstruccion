@@ -1,0 +1,29 @@
+-- ============================================================
+-- NEXDESK - LIMPIEZA DESTRUCTIVA DEL ESQUEMA PUBLIC
+-- PostgreSQL / Supabase
+--
+-- ADVERTENCIA:
+-- ELIMINA TABLAS, DATOS, FUNCIONES, TRIGGERS E INDICES
+-- Y PUEDE ELIMINAR DEPENDENCIAS FUERA DEL ESQUEMA PUBLIC.
+--
+-- SOLO PARA PROYECTOS DE LABORATORIO DESCARTABLES.
+-- NO EJECUTAR EN PRODUCCION NI EN PROYECTOS COMPARTIDOS.
+--
+-- RECOMENDADO: CREAR UN PROYECTO SUPABASE NUEVO (en caso de errores).
+-- ============================================================
+
+BEGIN;
+
+DROP SCHEMA IF EXISTS public CASCADE;
+
+CREATE SCHEMA public;
+
+GRANT USAGE ON SCHEMA public TO postgres;
+GRANT USAGE ON SCHEMA public TO anon;
+GRANT USAGE ON SCHEMA public TO authenticated;
+GRANT USAGE ON SCHEMA public TO service_role;
+
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO service_role;
+
+COMMIT;

@@ -1,0 +1,2208 @@
+{
+  "info": {
+    "name": "NEXDESK | LAB NODE 25 | 40 pruebas esenciales | Actualizada",
+    "_postman_id": "5d863906-1f17-4b13-a00d-2adab26b2401",
+    "description": "40 solicitudes esenciales, secuencia corregida para registrar seguimiento antes de cerrar el ticket. Usar únicamente en laboratorio, con Auth y datos previamente configurados. No ejecutarlas sobre producción.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 · Acceso y JWT",
+      "description": "Ejecutar en el orden presentado, comprobando respuesta y variables.",
+      "item": [
+        {
+          "name": "01 · Servidor activo [HTTP 200]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "estado"
+              ]
+            },
+            "description": "Caso original LAB26 #01. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 · Login sofia [HTTP 200]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Caso original LAB26 #02. Los tokens son secretos. Los usuarios deben existir en Supabase Auth y estar vinculados a public.usuarios.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailSofia}}\",\n  \"password\": \"{{passwordSofia}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const v = data.access_token; if(v !== undefined && v !== null) pm.collectionVariables.set(\"tokenSofia\", String(v)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 · Perfil sofia [HTTP 200]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Caso original LAB26 #03. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 · Login pedro [HTTP 200]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Caso original LAB26 #04. Los tokens son secretos. Los usuarios deben existir en Supabase Auth y estar vinculados a public.usuarios.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailPedro}}\",\n  \"password\": \"{{passwordPedro}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const v = data.access_token; if(v !== undefined && v !== null) pm.collectionVariables.set(\"tokenPedro\", String(v)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 · Login ana [HTTP 200]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Caso original LAB26 #06. Los tokens son secretos. Los usuarios deben existir en Supabase Auth y estar vinculados a public.usuarios.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailAna}}\",\n  \"password\": \"{{passwordAna}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const v = data.access_token; if(v !== undefined && v !== null) pm.collectionVariables.set(\"tokenAna\", String(v)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 · Login tecnico [HTTP 200]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Caso original LAB26 #08. Los tokens son secretos. Los usuarios deben existir en Supabase Auth y estar vinculados a public.usuarios.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailTecnico}}\",\n  \"password\": \"{{passwordTecnico}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const v = data.access_token; if(v !== undefined && v !== null) pm.collectionVariables.set(\"tokenTecnico\", String(v)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 · Login maria [HTTP 200]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Caso original LAB26 #10. Los tokens son secretos. Los usuarios deben existir en Supabase Auth y estar vinculados a public.usuarios.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailMaria}}\",\n  \"password\": \"{{passwordMaria}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const v = data.access_token; if(v !== undefined && v !== null) pm.collectionVariables.set(\"tokenMaria\", String(v)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "08 · Sin token: perfil [HTTP 401]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Caso original LAB26 #13. Esperado HTTP 401. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 · Usuarios y RBAC",
+      "description": "Ejecutar en el orden presentado, comprobando respuesta y variables.",
+      "item": [
+        {
+          "name": "01 · Sofía lista todos [HTTP 200]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios"
+              ]
+            },
+            "description": "Caso original LAB26 #15. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 · Ana no puede listar [HTTP 403]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios"
+              ]
+            },
+            "description": "Caso original LAB26 #17. Esperado HTTP 403. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenAna}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "pm.test(\"Sin permisos\",()=>pm.expect(data.error).to.be.a(\"string\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 · Sofía crea usuario [HTTP 201]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios"
+              ]
+            },
+            "description": "Caso original LAB26 #18. Guarda credencialTemporal de forma privada; la colección NO la almacena automáticamente.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo_documento\": \"CC\",\n  \"numero_documento\": \"LAB25{{runId}}01\",\n  \"nombre\": \"Andres\",\n  \"apellido\": \"Ramirez\",\n  \"email\": \"{{emailNuevoUsuario}}\",\n  \"rol\": \"usuario\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const v = data.usuario?.id; if(v !== undefined && v !== null) pm.collectionVariables.set(\"usuarioId\", String(v)); }",
+                  "pm.test(\"Creación devuelve JSON\",()=>pm.expect(data).to.be.an(\"object\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 · Sofía consulta usuario [HTTP 200]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/{{usuarioId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios",
+                "{{usuarioId}}"
+              ]
+            },
+            "description": "Caso original LAB26 #19. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 · Sofía actualiza usuario [HTTP 200]",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/{{usuarioId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios",
+                "{{usuarioId}}"
+              ]
+            },
+            "description": "Caso original LAB26 #20. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo_documento\": \"CC\",\n  \"numero_documento\": \"LAB25{{runId}}01\",\n  \"nombre\": \"Andres Felipe\",\n  \"apellido\": \"Ramirez\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 · Sofía desactiva usuario [HTTP 200]",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/{{usuarioId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios",
+                "{{usuarioId}}",
+                "estado"
+              ]
+            },
+            "description": "Caso original LAB26 #21. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activo\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 · Sofía reactiva usuario [HTTP 200]",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios/{{usuarioId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios",
+                "{{usuarioId}}",
+                "estado"
+              ]
+            },
+            "description": "Caso original LAB26 #22. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activo\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "08 · Sofía crea técnico como usuario [HTTP 201]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios"
+              ]
+            },
+            "description": "Caso original LAB26 #23. Esperado HTTP 201. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo_documento\": \"CC\",\n  \"numero_documento\": \"LAB25{{runId}}02\",\n  \"nombre\": \"Daniel\",\n  \"apellido\": \"Ramirez\",\n  \"email\": \"{{emailNuevoTecnico}}\",\n  \"rol\": \"tecnico\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const v = data.usuario?.id; if(v !== undefined && v !== null) pm.collectionVariables.set(\"tecnicoUsuarioId\", String(v)); }",
+                  "pm.test(\"Creación devuelve JSON\",()=>pm.expect(data).to.be.an(\"object\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "09 · Pedro no crea superadmin [HTTP 403]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios"
+              ]
+            },
+            "description": "Caso original LAB26 #25. Esperado HTTP 403. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPedro}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo_documento\": \"CC\",\n  \"numero_documento\": \"LAB260004\",\n  \"nombre\": \"Andres\",\n  \"apellido\": \"Ramirez\",\n  \"email\": \"{{emailIntentoSuperadmin}}\",\n  \"rol\": \"superadmin\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "pm.test(\"Sin permisos\",()=>pm.expect(data.error).to.be.a(\"string\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "10 · Ana no crea usuario [HTTP 403]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios"
+              ]
+            },
+            "description": "Caso original LAB26 #30. Esperado HTTP 403. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenAna}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo_documento\": \"CC\",\n  \"numero_documento\": \"LAB260001\",\n  \"nombre\": \"Andres\",\n  \"apellido\": \"Ramirez\",\n  \"email\": \"{{emailNuevoUsuario}}\",\n  \"rol\": \"usuario\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "pm.test(\"Sin permisos\",()=>pm.expect(data.error).to.be.a(\"string\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 · Técnicos",
+      "description": "Ejecutar en el orden presentado, comprobando respuesta y variables.",
+      "item": [
+        {
+          "name": "01 · Sofía crea perfil técnico [HTTP 201]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tecnicos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tecnicos"
+              ]
+            },
+            "description": "Caso original LAB26 #35. Esperado HTTP 201. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"usuario_id\": \"{{tecnicoUsuarioId}}\",\n  \"especialidad\": \"Redes\",\n  \"disponible\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const v = data.id; if(v !== undefined && v !== null) pm.collectionVariables.set(\"tecnicoId\", String(v)); }",
+                  "pm.test(\"Creación devuelve JSON\",()=>pm.expect(data).to.be.an(\"object\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 · Sofía lista técnicos [HTTP 200]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tecnicos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tecnicos"
+              ]
+            },
+            "description": "Caso original LAB26 #36. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 · Sofía actualiza técnico [HTTP 200]",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tecnicos/{{tecnicoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tecnicos",
+                "{{tecnicoId}}"
+              ]
+            },
+            "description": "Caso original LAB26 #38. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"especialidad\": \"Infraestructura\",\n  \"disponible\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 · Sofía técnico no disponible [HTTP 200]",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tecnicos/{{tecnicoId}}/disponibilidad",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tecnicos",
+                "{{tecnicoId}}",
+                "disponibilidad"
+              ]
+            },
+            "description": "Caso original LAB26 #39. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"disponible\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 · Sofía técnico disponible [HTTP 200]",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tecnicos/{{tecnicoId}}/disponibilidad",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tecnicos",
+                "{{tecnicoId}}",
+                "disponibilidad"
+              ]
+            },
+            "description": "Caso original LAB26 #40. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"disponible\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04 · Categorías",
+      "description": "Ejecutar en el orden presentado, comprobando respuesta y variables.",
+      "item": [
+        {
+          "name": "01 · Sofía crea categoría [HTTP 201]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias"
+              ]
+            },
+            "description": "Caso original LAB26 #45. Esperado HTTP 201. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"LAB26 Redes {{runId}}\",\n  \"descripcion\": \"Categoría temporal para pruebas\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const v = data.id; if(v !== undefined && v !== null) pm.collectionVariables.set(\"categoriaId\", String(v)); }",
+                  "pm.test(\"Creación devuelve JSON\",()=>pm.expect(data).to.be.an(\"object\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 · Sofía consulta categoría [HTTP 200]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias/{{categoriaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias",
+                "{{categoriaId}}"
+              ]
+            },
+            "description": "Caso original LAB26 #46. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 · Pedro actualiza categoría [HTTP 200]",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias/{{categoriaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias",
+                "{{categoriaId}}"
+              ]
+            },
+            "description": "Caso original LAB26 #47. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenPedro}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"LAB26 Redes Actualizada {{runId}}\",\n  \"descripcion\": \"Validación CRUD\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 · Sofía desactiva categoría [HTTP 200]",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias/{{categoriaId}}/desactivar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias",
+                "{{categoriaId}}",
+                "desactivar"
+              ]
+            },
+            "description": "Caso original LAB26 #48. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 · Sofía activa categoría [HTTP 200]",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias/{{categoriaId}}/activar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias",
+                "{{categoriaId}}",
+                "activar"
+              ]
+            },
+            "description": "Caso original LAB26 #49. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 · Ana no crea categoría [HTTP 403]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias"
+              ]
+            },
+            "description": "Caso original LAB26 #50. Esperado HTTP 403. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenAna}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"No autorizada\",\n  \"descripcion\": \"Prueba RBAC\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "pm.test(\"Sin permisos\",()=>pm.expect(data.error).to.be.a(\"string\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "05 · Tickets y estados",
+      "description": "Orden obligatorio: crear ticket, asignar técnico, iniciar atención, registrar seguimiento mientras está abierto, resolver y cerrar. El backend no admite nuevos seguimientos en tickets cerrados.",
+      "item": [
+        {
+          "name": "01 · Ana crea ticket propio [HTTP 201]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets"
+              ]
+            },
+            "description": "Caso original LAB26 #53. Esperado HTTP 201. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenAna}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"LAB26 Falla de red {{runId}}\",\n  \"descripcion\": \"Sin conexión a Internet en laboratorio\",\n  \"prioridad\": \"media\",\n  \"categoria_id\": \"{{categoriaId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const v = data.id; if(v !== undefined && v !== null) pm.collectionVariables.set(\"ticketId\", String(v)); }",
+                  "pm.test(\"Creación devuelve JSON\",()=>pm.expect(data).to.be.an(\"object\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 · Ana consulta ticket propio [HTTP 200]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets/{{ticketId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}"
+              ]
+            },
+            "description": "Caso original LAB26 #55. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenAna}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 · Ana no asigna técnico [HTTP 403]",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets/{{ticketId}}/asignar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}",
+                "asignar"
+              ]
+            },
+            "description": "Caso original LAB26 #56. Esperado HTTP 403. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenAna}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tecnico_id\": \"{{tecnicoId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "pm.test(\"Sin permisos\",()=>pm.expect(data.error).to.be.a(\"string\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 · Sofía asigna técnico [HTTP 200]",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets/{{ticketId}}/asignar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}",
+                "asignar"
+              ]
+            },
+            "description": "Caso original LAB26 #57. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tecnico_id\": \"{{tecnicoId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 · Sofía cambia a en_proceso [HTTP 200]",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets/{{ticketId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}",
+                "estado"
+              ]
+            },
+            "description": "Caso original LAB26 #59. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"en_proceso\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 · Ana agrega seguimiento antes del cierre [HTTP 201]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets/{{ticketId}}/seguimientos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}",
+                "seguimientos"
+              ]
+            },
+            "description": "Caso original LAB26 #67. Esperado HTTP 201. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenAna}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"observacion\": \"Solicito actualización del caso\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const v = data.id; if(v !== undefined && v !== null) pm.collectionVariables.set(\"seguimientoId\", String(v)); }",
+                  "pm.test(\"Creación devuelve JSON\",()=>pm.expect(data).to.be.an(\"object\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 · Sofía resuelve [HTTP 200]",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets/{{ticketId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}",
+                "estado"
+              ]
+            },
+            "description": "Caso original LAB26 #60. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"resuelto\",\n  \"solucion\": \"Se restableció conectividad\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "08 · Sofía cierra [HTTP 200]",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets/{{ticketId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketId}}",
+                "estado"
+              ]
+            },
+            "description": "Caso original LAB26 #61. Esperado HTTP 200. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenSofia}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"cerrado\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06 · Seguimientos y BOLA",
+      "description": "Pruebas BOLA con ticket real de María, ejecutadas después del cierre del ticket de Ana. No se intenta registrar seguimientos en tickets cerrados.",
+      "item": [
+        {
+          "name": "01 · María crea ticket ajeno [HTTP 201]",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets"
+              ]
+            },
+            "description": "Caso original LAB26 #69. Esperado HTTP 201. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenMaria}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"LAB26 Ticket de María {{runId}}\",\n  \"descripcion\": \"Prueba de propiedad de recurso\",\n  \"prioridad\": \"baja\",\n  \"categoria_id\": \"{{categoriaId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "if (pm.response.code >= 200 && pm.response.code < 300) { const v = data.id; if(v !== undefined && v !== null) pm.collectionVariables.set(\"ticketAjenoId\", String(v)); }",
+                  "pm.test(\"Creación devuelve JSON\",()=>pm.expect(data).to.be.an(\"object\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 · Ana no consulta ticket de María [HTTP 404]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets/{{ticketAjenoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketAjenoId}}"
+              ]
+            },
+            "description": "Caso original LAB26 #70. Esperado HTTP 404. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenAna}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "pm.test(\"Recurso no revelado\",()=>pm.expect(data.error).to.be.a(\"string\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 · Ana no lee seguimientos ajenos [HTTP 404]",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tickets/{{ticketAjenoId}}/seguimientos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{ticketAjenoId}}",
+                "seguimientos"
+              ]
+            },
+            "description": "Caso original LAB26 #71. Esperado HTTP 404. Ejecutar en orden cuando dependa de datos anteriores.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenAna}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "let data = {}; try { data = pm.response.json(); } catch(e) {}",
+                  "pm.test(\"Recurso no revelado\",()=>pm.expect(data.error).to.be.a(\"string\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "tokenSofia",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "tokenPedro",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "tokenAna",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "tokenTecnico",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "tokenMaria",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "tokenInvalido",
+      "value": "TOKEN_INVALIDO",
+      "type": "string"
+    },
+    {
+      "key": "emailSofia",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "emailPedro",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "emailAna",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "emailTecnico",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "emailMaria",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "passwordSofia",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "passwordPedro",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "passwordAna",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "passwordTecnico",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "passwordMaria",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "passwordNuevaTecnico",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "emailNuevoUsuario",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "emailNuevoTecnico",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "emailNuevoAdmin",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "emailIntentoSuperadmin",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "emailIntentoAdmin",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "usuarioId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "tecnicoUsuarioId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminCreadoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "tecnicoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "categoriaId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "ticketId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "ticketAjenoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "seguimientoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "sofiaId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "runId",
+      "value": "A001",
+      "type": "string"
+    }
+  ]
+}
